@@ -1,6 +1,6 @@
 ---
 title: "Analisis Korelasi Konsumsi Minyak Pemanas Rumah"
-author: "Nanda Zhafran Mahendra"
+author: "Arya Senpai"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -9,7 +9,6 @@ output:
     toc_float: true
 bibliography: references.bib
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -22,38 +21,37 @@ library(scales)
 
 ## Soal 1: Analisis Korelasi & Visualisasi
 
-### Langkah 1: Correlation Matrix
+### Langkah 1: Matriks Korelasi
 
 ```{r}
-data <- read_csv("HeatingOil.csv", show_col_types = FALSE)
+data <- read_csv("HeatingOil.csv")
 
-
-vars <- data %>% 
+vars <- data %>%
   select(Heating_Oil, Insulation, Temperature, Num_Occupants, Avg_Age, Home_Size)
 
 cor_matrix <- cor(vars)
 
 cor_matrix
 
-corrplot(cor_matrix, method = "color", 
+corrplot(cor_matrix, method = "color",
          tl.col = "black", addCoef.col = "black", number.cex = 0.7)
 ```
 
 ### Langkah 2: Interpretasi Korelasi
 
-Berdasarkan correlation matrix:
+Berdasarkan matriks korelasi:
 
-- Temperature berkorelasi negatif dengan Heating_Oil — makin hangat suhu luar, makin sedikit minyak dipakai.
-- Insulation juga berkorelasi negatif — rumah dengan insulasi baik lebih hemat energi.
-- Home_Size cenderung berkorelasi positif — rumah besar butuh pemanas lebih banyak.
+- **Temperature** berkorelasi negatif dengan **Heating_Oil** — semakin tinggi suhu luar, semakin sedikit konsumsi minyak.
+- **Insulation** juga menunjukkan korelasi negatif — rumah dengan insulasi baik lebih efisien energi.
+- **Home_Size** cenderung berkorelasi positif — rumah yang lebih besar memerlukan lebih banyak pemanas.
 
-**Kesimpulan**: Suhu, insulasi, dan ukuran rumah berperan penting terhadap konsumsi minyak.
+**Kesimpulan**: Suhu, insulasi, dan ukuran rumah merupakan faktor penting dalam konsumsi minyak pemanas.
 
-### Langkah 3: Scatter Plot 1 - Heating_Oil vs Avg_Age
+### Langkah 3: Scatter Plot 1 – Heating_Oil vs Avg_Age
 
 ```{r scatter-plot-1}
 ggplot(data, aes(x = Heating_Oil, y = Avg_Age, color = Heating_Oil)) +
-  geom_point(size = 3, alpha = 0.9) +
+  geom_point(size = 3, alpha = 0.8) +
   scale_color_gradient(low = "blue", high = "red") +
   labs(
     title = "Scatter Plot: Heating_Oil vs Avg_Age",
@@ -64,7 +62,7 @@ ggplot(data, aes(x = Heating_Oil, y = Avg_Age, color = Heating_Oil)) +
   theme_minimal()
 ```
 
-### Langkah 4: Scatter Plot 2 - Temperature vs Insulation
+### Langkah 4: Scatter Plot 2 – Temperature vs Insulation
 
 ```{r scatter-plot-2}
 ggplot(data, aes(x = Temperature, y = Insulation, color = Heating_Oil)) +
@@ -81,20 +79,20 @@ ggplot(data, aes(x = Temperature, y = Insulation, color = Heating_Oil)) +
 
 ### Langkah 5: Rekomendasi untuk Sarah
 
-Berdasarkan analisis:
+Berdasarkan hasil analisis, disarankan untuk fokus pemasaran pada rumah:
 
-- Fokus pemasaran pada rumah:
-  - Bersuhu rendah (wilayah dingin),
-  - Dengan insulasi buruk (skor rendah),
-  - Dan berukuran besar.
+- Di wilayah bersuhu rendah,
+- Dengan insulasi yang buruk,
+- Dan ukuran rumah yang besar.
 
-Strategi promosi bisa berupa:
+Strategi promosi dapat meliputi:
+
 - Edukasi penghematan energi untuk rumah tua,
-- Penawaran khusus untuk pemilik rumah besar atau banyak penghuni.
+- Penawaran khusus untuk rumah besar atau dengan banyak penghuni.
 
-## Soal 2: Model Prediktif & Aplikasi
+## Soal 2: Model Prediktif & Aplikasinya
 
-### Langkah 1: Buat Model Regresi
+### Langkah 1: Bangun Model Regresi
 
 ```{r model-regresi}
 model <- lm(Heating_Oil ~ Insulation + Temperature + Num_Occupants + Avg_Age + Home_Size, data = data)
@@ -107,13 +105,12 @@ summary(model)
 saveRDS(model, file = "model_heating_oil.rds")
 ```
 
-### Langkah 3: Digunakan oleh Marketer
+### Langkah 3: Aplikasi oleh Tim Marketing
 
 ```{r apply-model}
 model_loaded <- readRDS("model_heating_oil.rds")
 
-marketing_data <- read_csv("HeatingOil-Marketing.csv", show_col_types = FALSE)
-
+marketing_data <- read_csv("HeatingOil-Marketing.csv")
 
 marketing_data$Predicted_Heating_Oil <- predict(model_loaded, newdata = marketing_data)
 
@@ -122,6 +119,6 @@ head(marketing_data)
 
 ### Kesimpulan Akhir
 
-Dengan model prediktif ini, marketer dapat mengestimasi kebutuhan minyak pelanggan baru tanpa melihat data asli. Proses ini membantu menjaga privasi data, sekaligus tetap akurat dalam prediksi.
+Model prediktif ini memungkinkan tim marketing untuk mengestimasi kebutuhan minyak pemanas pelanggan baru tanpa harus mengakses data sensitif mereka.
 
-Sarah sekarang bisa mendistribusikan model ke seluruh tim dengan aman dan efisien.
+Dengan cara ini, privasi tetap terjaga dan prediksi tetap akurat. Sarah kini dapat mendistribusikan model ini secara luas ke seluruh tim secara aman dan efisien.
