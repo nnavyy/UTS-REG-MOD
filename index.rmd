@@ -17,6 +17,8 @@ library(dplyr)
 library(corrplot)
 library(readr)
 library(scales)
+options(readr.show_col_types = FALSE)
+
 ```
 
 ## Soal 1: Analisis Korelasi & Visualisasi
