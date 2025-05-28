@@ -1,6 +1,6 @@
 ---
 title: "Analisis Korelasi Konsumsi Minyak Pemanas Rumah"
-author: "Arya Senpai"
+author: "Nanda Zhafran Mahendra"
 date: "`r Sys.Date()`"
 output:
   html_document:
