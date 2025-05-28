@@ -11,7 +11,7 @@
 
 <meta name="author" content="Nanda Zhafran Mahendra" />
 
-<meta name="date" content="2025-05-27" />
+<meta name="date" content="2025-05-28" />
 
 <title>Analisis Korelasi Konsumsi Minyak Pemanas Rumah</title>
 
@@ -1494,7 +1494,7 @@ border-radius: 0px;
 <h1 class="title toc-ignore">Analisis Korelasi Konsumsi Minyak Pemanas
 Rumah</h1>
 <h4 class="author">Nanda Zhafran Mahendra</h4>
-<h4 class="date">2025-05-27</h4>
+<h4 class="date">2025-05-28</h4>
 
 </div>
 
@@ -1503,15 +1503,10 @@ Rumah</h1>
 <h2>Soal 1: Analisis Korelasi &amp; Visualisasi</h2>
 <div id="langkah-1-correlation-matrix" class="section level3">
 <h3>Langkah 1: Correlation Matrix</h3>
-<pre class="r"><code>data &lt;- read_csv(&quot;HeatingOil.csv&quot;)</code></pre>
-<pre><code>## Rows: 100 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## dbl (6): Heating_Oil, Insulation, Temperature, Num_Occupants, Avg_Age, Home_...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>vars &lt;- data %&gt;% 
+<pre class="r"><code>data &lt;- read_csv(&quot;HeatingOil.csv&quot;, show_col_types = FALSE)
+
+
+vars &lt;- data %&gt;% 
   select(Heating_Oil, Insulation, Temperature, Num_Occupants, Avg_Age, Home_Size)
 
 cor_matrix &lt;- cor(vars)
@@ -1630,15 +1625,10 @@ summary(model)</code></pre>
 <h3>Langkah 3: Digunakan oleh Marketer</h3>
 <pre class="r"><code>model_loaded &lt;- readRDS(&quot;model_heating_oil.rds&quot;)
 
-marketing_data &lt;- read_csv(&quot;HeatingOil-Marketing.csv&quot;)</code></pre>
-<pre><code>## Rows: 20 Columns: 5
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## dbl (5): Insulation, Temperature, Num_Occupants, Avg_Age, Home_Size
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>marketing_data$Predicted_Heating_Oil &lt;- predict(model_loaded, newdata = marketing_data)
+marketing_data &lt;- read_csv(&quot;HeatingOil-Marketing.csv&quot;, show_col_types = FALSE)
+
+
+marketing_data$Predicted_Heating_Oil &lt;- predict(model_loaded, newdata = marketing_data)
 
 head(marketing_data)</code></pre>
 <pre><code>## # A tibble: 6 × 6

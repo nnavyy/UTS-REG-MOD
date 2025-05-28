@@ -25,7 +25,8 @@ library(scales)
 ### Langkah 1: Correlation Matrix
 
 ```{r}
-data <- read_csv("HeatingOil.csv")
+data <- read_csv("HeatingOil.csv", show_col_types = FALSE)
+
 
 vars <- data %>% 
   select(Heating_Oil, Insulation, Temperature, Num_Occupants, Avg_Age, Home_Size)
@@ -111,7 +112,8 @@ saveRDS(model, file = "model_heating_oil.rds")
 ```{r apply-model}
 model_loaded <- readRDS("model_heating_oil.rds")
 
-marketing_data <- read_csv("HeatingOil-Marketing.csv")
+marketing_data <- read_csv("HeatingOil-Marketing.csv", show_col_types = FALSE)
+
 
 marketing_data$Predicted_Heating_Oil <- predict(model_loaded, newdata = marketing_data)
 
